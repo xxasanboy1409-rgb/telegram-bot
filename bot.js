@@ -31,6 +31,7 @@ async function checkSubscription(userId) {
         return false;
       }
     } catch (e) {
+      console.error(`❌ Xatolik kanal tekshiruvda: ${ch.username}`, e.message);
       return false;
     }
   }
