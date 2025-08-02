@@ -134,6 +134,6 @@ bot.on('message', async (msg) => {
     caption: file.caption
   });
 } else {
-    bot.sendMessage(chatId, "⚠️ Fayl turi noto‘g‘ri belgilangan.");
+    bot.sendMessage(chatId, "⚠️ Fayl noto‘g‘ri belgilangan.");
   }
 });
