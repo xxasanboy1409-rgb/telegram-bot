@@ -4,8 +4,11 @@ const bot = new TelegramBot(token, { polling: true });
 
 // Kanallar ro'yxati
 const channels = [
-  { name: "🎥 1-Kanal", username: "@dgjoni_yt" },
-  { name: "📚 2-Kanal", username: "@SHERALIYEVICHweb" }
+  { name: " 1-Kanal", username: "@dgjoni_yt" },
+  { name: " 2-Kanal", username: "@SHERALIYEVICHweb" },
+  { name: " 3-Kanal", username: "@dgjonipubgm" },
+  { name: " 4-Kanal", username: "@dgJONIyt" },
+  { name: " 5-Kanal", username: "https://youtube.com/@dgjonipubg?si=6pJBgdAbcGN81UE7" }
 ];
 
 // Fayllar ro'yxati
@@ -19,6 +22,11 @@ const files = {
     type: 'document',
     path: 'file.rar',
     caption: "📄 Mana siz so‘ragan hujjat!"
+  },
+   '3': {
+    type: 'text',
+    text: '1-7501-5220-2334-5565-606',
+    caption: "📄 Mana siz so‘ragan chust!"
   }
 };
 
@@ -53,18 +61,27 @@ bot.onText(/\/start/, async (msg) => {
         [
           { text: channels[1].name, url: `https://t.me/${channels[1].username.replace('@', '')}` }
         ],
+         [
+          { text: channels[2].name, url: `https://t.me/${channels[2].username.replace('@', '')}` }
+        ],
+         [
+          { text: channels[3].name, url: `https://t.me/${channels[3].username.replace('@', '')}` }
+        ],
+         [
+          { text: channels[4].name, url: `https://t.me/${channels[4].username.replace('@', '')}` }
+        ],
         [
           { text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }
         ]
       ]
     };
 
-    bot.sendMessage(chatId, "📢 <b>Botdan foydalanish uchun quyidagi kanallarga obuna bo‘ling:</b>", {
+    bot.sendMessage(chatId, "📢 <b>Botdan foydalanish uchun kanallarga obuna bo‘ling:</b>", {
       parse_mode: 'HTML',
       reply_markup: inlineKeyboard
     });
   } else {
-    bot.sendMessage(chatId, "✅ Obuna tekshirildi!\n\n🔢 Endi kerakli raqamni yuboring (masalan: <b>1</b>):", {
+    bot.sendMessage(chatId, "\n\n🔢 Kerakli raqamni yuboring (masalan: <b>1</b>):", {
       parse_mode: 'HTML'
     });
   }
@@ -79,7 +96,7 @@ bot.on('callback_query', async (query) => {
     const isSubscribed = await checkSubscription(userId);
 
     if (isSubscribed) {
-      bot.sendMessage(chatId, "✅ Obuna tasdiqlandi!\n\nEndi kerakli raqamni yuboring (masalan: <b>1</b>):", {
+      bot.sendMessage(chatId, "\n\nEndi kerakli raqamni yuboring (masalan: <b>1</b>):", {
         parse_mode: 'HTML'
       });
     } else {
@@ -104,7 +121,7 @@ bot.on('message', async (msg) => {
   }
 
   if (!files.hasOwnProperty(text)) {
-    return bot.sendMessage(chatId, "⚠️ Bu raqamga hech qanday fayl biriktirilmagan.");
+    return bot.sendMessage(chatId, "⚠️ Bunday fayl mavjud emas.");
   }
 
   const file = files[text];
