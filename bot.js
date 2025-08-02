@@ -7,8 +7,7 @@ const channels = [
   { name: " 1-Kanal", username: "@dgjoni_yt" },
   { name: " 2-Kanal", username: "@SHERALIYEVICHweb" },
   { name: " 3-Kanal", username: "@dgjonipubgm" },
-  { name: " 4-Kanal", username: "@dgJONIyt" },
-  { name: " 5-Kanal", username: "https://youtube.com/@dgjonipubg?si=6pJBgdAbcGN81UE7" }
+  { name: " 4-Kanal", username: "@dgJONIyt" }
 ];
 
 // Fayllar ro'yxati
@@ -66,9 +65,6 @@ bot.onText(/\/start/, async (msg) => {
         ],
          [
           { text: channels[3].name, url: `https://t.me/${channels[3].username.replace('@', '')}` }
-        ],
-         [
-          { text: channels[4].name, url: `https://t.me/${channels[4].username.replace('@', '')}` }
         ],
         [
           { text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }
