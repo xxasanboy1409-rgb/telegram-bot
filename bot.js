@@ -22,15 +22,15 @@ const files = {
     path: 'file.rar',
     caption: "📄 Mana siz so‘ragan hujjat!"
   },
-  '3': {
+   '3': {
     type: 'text',
     text: '1-7501-5220-2334-5565-606',
-    caption: "📌 Mana siz so‘ragan kod:"
+    caption: "📄 Mana siz so‘ragan chust!"
   },
-  '4': {
+   '4': {
     type: 'text',
     text: 'https://youtube.com/@dgjonipubg?si=6pJBgdAbcGN81UE7',
-    caption: "📺 YouTube kanalga havola:"
+    caption: "🎬 Mana siz so‘ragan kanal!"
   },
 };
 
@@ -59,11 +59,21 @@ bot.onText(/\/start/, async (msg) => {
   if (!isSubscribed) {
     const inlineKeyboard = {
       inline_keyboard: [
-        [{ text: channels[0].name, url: `https://t.me/${channels[0].username.replace('@', '')}` }],
-        [{ text: channels[1].name, url: `https://t.me/${channels[1].username.replace('@', '')}` }],
-        [{ text: channels[2].name, url: `https://t.me/${channels[2].username.replace('@', '')}` }],
-        [{ text: channels[3].name, url: `https://t.me/${channels[3].username.replace('@', '')}` }],
-        [{ text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }]
+        [
+          { text: channels[0].name, url: `https://t.me/${channels[0].username.replace('@', '')}` }
+        ],
+        [
+          { text: channels[1].name, url: `https://t.me/${channels[1].username.replace('@', '')}` }
+        ],
+         [
+          { text: channels[2].name, url: `https://t.me/${channels[2].username.replace('@', '')}` }
+        ],
+         [
+          { text: channels[3].name, url: `https://t.me/${channels[3].username.replace('@', '')}` }
+        ]
+        [
+          { text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }
+        ]
       ]
     };
 
@@ -72,7 +82,7 @@ bot.onText(/\/start/, async (msg) => {
       reply_markup: inlineKeyboard
     });
   } else {
-    bot.sendMessage(chatId, "🔢 Kerakli raqamni yuboring (masalan: <b>1</b>):", {
+    bot.sendMessage(chatId, "\n\n🔢 Kerakli raqamni yuboring (masalan: <b>1</b>):", {
       parse_mode: 'HTML'
     });
   }
@@ -87,11 +97,11 @@ bot.on('callback_query', async (query) => {
     const isSubscribed = await checkSubscription(userId);
 
     if (isSubscribed) {
-      bot.sendMessage(chatId, "✅ Obuna tasdiqlandi!\n\n🔢 Kerakli raqamni yuboring (masalan: <b>1</b>):", {
+      bot.sendMessage(chatId, "\n\nEndi kerakli raqamni yuboring (masalan: <b>1</b>):", {
         parse_mode: 'HTML'
       });
     } else {
-      bot.sendMessage(chatId, "❌ Siz hali barcha kanallarga obuna bo‘lmagansiz.\n\nIltimos, yuqoridagi kanallarga obuna bo‘ling va qayta urinib ko‘ring.");
+      bot.sendMessage(chatId, "❌ Siz hali barcha kanallarga obuna bo‘lmagansiz.\n\nIltimos, yuqoridagi kanallarga obuna bo‘ling va qaytadan tekshiring.");
     }
   }
 
@@ -119,22 +129,11 @@ bot.on('message', async (msg) => {
 
   if (file.type === 'video') {
     bot.sendVideo(chatId, file.path, { caption: file.caption });
-  } else if (file.type === 'document') {
-    bot.sendDocument(chatId, file.path, { caption: file.caption });
-  } else if (file.type === 'text') {
-    // Agar matn link bo‘lsa, uni tugmaga aylantirish
-    if (file.text.startsWith('http')) {
-      bot.sendMessage(chatId, file.caption, {
-        reply_markup: {
-          inline_keyboard: [[{ text: "📎 Havolani ochish", url: file.text }]]
-        }
-      });
-    } else {
-      bot.sendMessage(chatId, `${file.caption}\n\n<code>${file.text}</code>`, {
-        parse_mode: 'HTML'
-      });
-    }
-  } else {
+ } else if (file.type === 'document') {
+  bot.sendDocument(chatId, file.path, {
+    caption: file.caption
+  });
+} else {
     bot.sendMessage(chatId, "⚠️ Fayl turi noto‘g‘ri belgilangan.");
   }
 });
