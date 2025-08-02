@@ -26,7 +26,12 @@ const files = {
     type: 'text',
     text: '1-7501-5220-2334-5565-606',
     caption: "📄 Mana siz so‘ragan chust!"
-  }
+  },
+   '4': {
+    type: 'text',
+    text: 'https://youtube.com/@dgjonipubg?si=6pJBgdAbcGN81UE7',
+    caption: "🎬 Mana siz so‘ragan kanal!"
+  },
 };
 
 // Obunani tekshirish funksiyasi
