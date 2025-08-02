@@ -1,0 +1,12 @@
+# Node.js dependencies
+node_modules/
+
+# Maxfiy ma'lumotlar
+.env
+
+# Log fayllar
+*.log
+
+# Video, arxiv, boshqa katta fayllar
+*.mp4
+*.rar
