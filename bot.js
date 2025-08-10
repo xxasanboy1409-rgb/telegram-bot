@@ -1,6 +1,15 @@
+const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
-const token = '8219817860:AAEercPGskexaV9JzfYWRR3zGDZQKHE04vk';
-const bot = new TelegramBot(token, { polling: true });
+const path = require('path');
+
+const token = process.env.BOT_TOKEN;
+const app = express();
+
+const bot = new TelegramBot(token);
+const PORT = process.env.PORT || 3000;
+
+// Webhook uchun maxfiy yo‘l
+const WEBHOOK_PATH = '/secret-path';
 
 // Kanallar ro'yxati
 const channels = [
@@ -9,26 +18,26 @@ const channels = [
   { name: "📚 3-Kanal", username: "@dgjonipubgm" }
 ];
 
-// Fayllar ro'yxati
+// Fayllar ro'yxati — bu fayllar loyihada bo‘lishi yoki link bo‘lishi mumkin
 const files = {
   '1': {
     type: 'video',
-    path: 'video1.mp4',
+    path: path.join(__dirname, 'video1.mp4'),
     caption: "🎬 Mana siz so‘ragan video!"
   },
   '2': {
     type: 'document',
-    path: 'file.rar',
+    path: path.join(__dirname, 'file.rar'),
     caption: "📄 Mana siz so‘ragan hujjat!"
   },
   '3': {
     type: 'document',
-    path: '3 HONA WEB SAHIFA.zip',
+    path: path.join(__dirname, '3 HONA WEB SAHIFA.zip'),
     caption: "📄 3 HONA WEB SAHIFA!"
   },
-   '4': {
+  '4': {
     type: 'document',
-    path: 'Portfolio.zip',
+    path: path.join(__dirname, 'Portfolio.zip'),
     caption: "📄 Portfolio!"
   }
 };
@@ -49,6 +58,25 @@ async function checkSubscription(userId) {
   return true;
 }
 
+// Express ga Telegram webhook callback o‘rnatamiz
+app.use(bot.webhookCallback(WEBHOOK_PATH));
+
+// Webhook URL (Render URL + webhook path)
+const DOMAIN = process.env.DOMAIN || 'https://your-render-url.onrender.com';
+
+(async () => {
+  try {
+    // Webhookni Telegramga o‘rnatamiz
+    await bot.setWebHook(DOMAIN + WEBHOOK_PATH);
+    app.listen(PORT, () => {
+      console.log(`Server ${PORT} portda ishlayapti`);
+    });
+    console.log('Webhook o‘rnatildi va bot ishga tushdi');
+  } catch (error) {
+    console.error('Webhook o‘rnatishda xato:', error);
+  }
+})();
+
 // /start komandasi
 bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
@@ -58,20 +86,19 @@ bot.onText(/\/start/, async (msg) => {
 
   if (!isSubscribed) {
     const inlineKeyboard = {
-  inline_keyboard: channels.map(ch => [
-    { text: ch.name, url: `https://t.me/${ch.username.replace('@', '')}` }
-  ]).concat([
-    [{ text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }]
-  ])
-};
+      inline_keyboard: channels.map(ch => [
+        { text: ch.name, url: `https://t.me/${ch.username.replace('@', '')}` }
+      ]).concat([
+        [{ text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }]
+      ])
+    };
 
-
-    bot.sendMessage(chatId, "📢 <b>Botdan foydalanish uchun  kanallarga obuna bo‘ling:</b>", {
+    bot.sendMessage(chatId, "📢 <b>Botdan foydalanish uchun kanallarga obuna bo‘ling:</b>", {
       parse_mode: 'HTML',
       reply_markup: inlineKeyboard
     });
   } else {
-    bot.sendMessage(chatId, "🔢Kerakli raqamni yuboring :", {
+    bot.sendMessage(chatId, "🔢Kerakli raqamni yuboring:", {
       parse_mode: 'HTML'
     });
   }
@@ -107,11 +134,11 @@ bot.on('message', async (msg) => {
 
   const isSubscribed = await checkSubscription(userId);
   if (!isSubscribed) {
-    return bot.sendMessage(chatId, "🚫 Avval kanallarga obuna bo‘ling .");
+    return bot.sendMessage(chatId, "🚫 Avval kanallarga obuna bo‘ling.");
   }
 
   if (!files.hasOwnProperty(text)) {
-    return bot.sendMessage(chatId, "⚠️ Bunday raqam mavjud emas ");
+    return bot.sendMessage(chatId, "⚠️ Bunday raqam mavjud emas.");
   }
 
   const file = files[text];
