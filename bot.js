@@ -17,7 +17,7 @@ const files = {
   },
   '2': {
     type: 'document',
-    path: 'doc.pdf',
+    path: 'file.rar',
     caption: "📄 Mana siz so‘ragan hujjat!"
   }
 };
@@ -47,18 +47,13 @@ bot.onText(/\/start/, async (msg) => {
 
   if (!isSubscribed) {
     const inlineKeyboard = {
-      inline_keyboard: [
-        [
-          { text: channels[0].name, url: `https://t.me/${channels[0].username.replace('@', '')}` }
-        ],
-        [
-          { text: channels[1].name, url: `https://t.me/${channels[1].username.replace('@', '')}` }
-        ],
-        [
-          { text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }
-        ]
-      ]
-    };
+  inline_keyboard: channels.map(ch => [
+    { text: ch.name, url: `https://t.me/${ch.username.replace('@', '')}` }
+  ]).concat([
+    [{ text: '✅ Obuna bo‘ldim', callback_data: 'check_subscription' }]
+  ])
+};
+
 
     bot.sendMessage(chatId, "📢 <b>Botdan foydalanish uchun  kanallarga obuna bo‘ling:</b>", {
       parse_mode: 'HTML',
