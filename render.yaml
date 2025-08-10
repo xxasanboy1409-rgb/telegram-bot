@@ -1,0 +1,15 @@
+# Exported from Render on 2025-08-10T07:04:28Z
+services:
+- type: web
+  name: telegram-bot
+  runtime: node
+  repo: https://github.com/xxasanboy1409-rgb/telegram-bot
+  plan: free
+  envVars:
+  - key: BOT_TOKEN
+    sync: false
+  region: oregon
+  buildCommand: npm install
+  startCommand: node bot.js
+  autoDeployTrigger: commit
+version: "1"
