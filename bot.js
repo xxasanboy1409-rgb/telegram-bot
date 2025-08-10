@@ -5,7 +5,8 @@ const bot = new TelegramBot(token, { polling: true });
 // Kanallar ro'yxati
 const channels = [
   { name: "🎥 1-Kanal", username: "@dgjoni_yt" },
-  { name: "📚 2-Kanal", username: "@SHERALIYEVICHweb" }
+  { name: "📚 2-Kanal", username: "@SHERALIYEVICHweb" },
+  { name: "📚 3-Kanal", username: "@dgjonipubgm" }
 ];
 
 // Fayllar ro'yxati
@@ -19,6 +20,16 @@ const files = {
     type: 'document',
     path: 'file.rar',
     caption: "📄 Mana siz so‘ragan hujjat!"
+  },
+  '3': {
+    type: 'document',
+    path: '3 HONA WEB SAHIFA.zip',
+    caption: "📄 3 HONA WEB SAHIFA!"
+  },
+   '4': {
+    type: 'document',
+    path: 'Portfolio.zip',
+    caption: "📄 Portfolio!"
   }
 };
 
